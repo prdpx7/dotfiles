@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Control brightness from cli
+# got this idea from: https://askubuntu.com/a/266602
+brightness(){
+    if [ $# -eq 0 ]; 
+    then
+        echo -e "No arguments specified.\nUsage:\nbrightness 10# set brightness level to 10;\nbrightness 0 #lightsout on screen";
+        return 1; 
+    fi
+    if ! [[ $1 =~ ^[0-9]+$ ]];
+    then
+        echo "brighness value should be an integer" >&2;
+        return 1
+    fi
+    
+    BACKLIT_FILE_PATH='/sys/class/backlight/intel_backlight/brightness'
+    is_permission_denied=`touch -c $BACKLIT_FILE_PATH 2>&1 | grep -o "Permission denied"`
+    if [[ "$is_permission_denied" =~ 'Permission denied' ]];
+    then
+        echo "You need to chown the $BACKLIT_FILE_PATH"
+        sudo chown $USER $BACKLIT_FILE_PATH
+        sudo chmod +wr $BACKLIT_FILE_PATH
+    fi
+    echo $1 > $BACKLIT_FILE_PATH
+}
+brightness $@
