@@ -20,7 +20,7 @@ brightness(){
     then
         echo "You need to chown the $BACKLIT_FILE_PATH"
         sudo chown $USER $BACKLIT_FILE_PATH
-        sudo chmod +wr $BACKLIT_FILE_PATH
+        chmod +wr $BACKLIT_FILE_PATH
     fi
     echo $1 > $BACKLIT_FILE_PATH
 }
