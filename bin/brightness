@@ -2,26 +2,30 @@
 
 # Control brightness from cli
 # got this idea from: https://askubuntu.com/a/266602
+# edit /etc/rc.local to chown BACKLIGHT_FILE on every boot otherwise have to enter root password atleast once for changing brightness 
+
 brightness(){
     if [ $# -eq 0 ]; 
     then
-        echo -e "No arguments specified.\nUsage:\nbrightness 10# set brightness level to 10;\nbrightness 0 #lightsout on screen";
+        echo -e "Usage:\nbrightness 10# set brightness level to 10;\nbrightness 0 #lightsout on screen";
         return 1; 
     fi
     if ! [[ $1 =~ ^[0-9]+$ ]];
     then
-        echo "brighness value should be an integer" >&2;
+        echo "brighness value should be an +integer" >&2;
         return 1
     fi
     
-    BACKLIT_FILE_PATH='/sys/class/backlight/intel_backlight/brightness'
-    is_permission_denied=`touch -c $BACKLIT_FILE_PATH 2>&1 | grep -o "Permission denied"`
+    BACKLIGHT_FILE='/sys/class/backlight/intel_backlight/brightness'
+    is_permission_denied=`touch -c $BACKLIGHT_FILE 2>&1 | grep -o "Permission denied"`
     if [[ "$is_permission_denied" =~ 'Permission denied' ]];
     then
-        echo "You need to chown the $BACKLIT_FILE_PATH"
-        sudo chown $USER $BACKLIT_FILE_PATH
-        chmod +wr $BACKLIT_FILE_PATH
+        echo "You need to chown the $BACKLIGHT_FILE"
+        sudo chown $USER $BACKLIGHT_FILE
+        chmod +wr $BACKLIGHT_FILE
+        echo "To save yourself from this thing, again and again"
+        echo "checkout this gist: https://gist.github.com/prdpx7/921d9c7ab24fc4ad8bc21392e7b8e95e"
     fi
-    echo $1 > $BACKLIT_FILE_PATH
+    echo $1 > $BACKLIGHT_FILE
 }
 brightness $@
