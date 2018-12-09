@@ -12,7 +12,7 @@ brightness(){
     fi
     if ! [[ $1 =~ ^[0-9]+$ ]];
     then
-        echo "brighness value should be an +integer" >&2;
+        echo "brighness value should be a +integer" >&2;
         return 1
     fi
     

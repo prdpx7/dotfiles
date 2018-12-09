@@ -5,6 +5,7 @@ GOOGLE_URL="https://google.com/search?q="
 opensearch(){
     MOVIE_SEARCH='intext:"search_term" intitle:"index.of" +(wmv|mpg|avi|mp4|mkv|mov) -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)'
     MUSIC_SEARCH='intext:"search_term" intitle:"index.of./" (ac3|flac|m4a|mp3|ogg|wav|wma) -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)'
+    BOOK_SEARCH='intitle:"search_term" (pdf|epub|mob) "search_term" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)'
     if [ $# -eq 0 ];then
         echo -e "see opensearch --help for more info";
         return 1; 
@@ -12,10 +13,12 @@ opensearch(){
     
     if [[ $1 =~ \-h|\-\-help ]];then
         echo "opensearch <search_term>"
-        echo "e.g: opensearch Daredevil S03E12"
+        printf "$ opensearch Daredevil S03E12\n\n"
         echo "opensearch -m <search_term>"
-        printf "e.g: opensearch --music 6lack east atlanta love letter\n\n"
-        echo "note: default search is only for search in videos(movie/tv shows), for searching songs use --music."
+        printf "$ opensearch --music 6lack east atlanta love letter\n\n"
+        echo "opensearch --book <search_term>"
+        printf "$ opensearch -b a brief history of time\n\n"
+        echo "note: default search is only for search in videos(movie/tv shows), for songs use --music,for books use --book."
         echo "credits: https://www.reddit.com/r/opendirectories/comments/933pzm/all_resources_i_know_related_to_open_directories/"
         return 0
     fi
@@ -24,6 +27,11 @@ opensearch(){
         shift;
         search_term="$@"
         query=`echo $MUSIC_SEARCH | sed -e "s/search_term/$search_term/g"`
+        xdg-open "$GOOGLE_URL$query" &> /dev/null
+    elif [[ $1 =~ \-b|\-\-book ]];then
+        shift
+        search_term="$@"
+        query=`echo $BOOK_SEARCH | sed -e "s/search_term/$search_term/g"`
         xdg-open "$GOOGLE_URL$query" &> /dev/null
     else
         search_term="$@"
