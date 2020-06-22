@@ -15,4 +15,4 @@ transfer()
     rm -f $tmpfile; 
 } 
 
-transfer $@
+transfer "$@"
