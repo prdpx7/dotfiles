@@ -21,4 +21,4 @@ killport(){
     fi
 }
 
-killport $@
+killport "$@"

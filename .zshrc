@@ -56,7 +56,7 @@ plugins=(copyfile zsh_reload extract)
 
 # User configuration
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin/:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -88,45 +88,92 @@ source $ZSH/oh-my-zsh.sh
 # redefine prompt_context for hiding user@hostname
 # prompt_context () { }
 
+######## Env Tokens ############
+export TWITTER_CONSUMER_KEY=""
+export TWITTER_CONSUMER_SECRET=""
+export TWITTER_ACCESS_TOKEN_KEY=""
+export TWITTER_ACCESS_TOKEN_SECRET=""
+export BITLY_ACCESS_TOKEN=""
+export MEGA_KEY=""
+export IMGUR_CLIENT_ID=""
+export IMGUR_SECRET=""
+export POSTIMG_CLIENT_ID=""
+export GITHUB_PERSONAL_TOKEN=""
+export GOOGLE_CLIENT_ID=''
+export GOOGLE_CLIENT_SECRET=''
+######################################
 
 #MAIL SETTING
+export EMAIL=""
 MAIL=/var/spool/mail/john && export MAIL
 
-#Custom aliases
+
+######## Custom aliases #############
+
+#alias pip2='/usr/bin/python -m pip'
+alias datagrip='/home/prdpx7/desktop_dump/DataGrip-2017.2.2/bin/datagrip.sh'
+#alias djvenv='source /home/prdpx7/LocalGitHub/DjangoPlayground/venv/bin/activate'
 alias rm='rm -v'
+#alias prolog='swipl'
 alias rot13='tr "[A-Za-z]" "[N-ZA-Mn-za-m]"'
 alias shttp="echo 'Machine IP: '`hostname -I` && python -m SimpleHTTPServer"
 alias xup="sudo apt-get update && sudo apt-get upgrade"
 alias cls='printf "\033c"'
 alias jadx="/home/prdpx7/Experiments/jadx/build/jadx/bin/jadx"
+export ANDROID_HOME=/home/prdpx7/Tools/android-sdk-linux
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games
+###########################################
 
-#<NPM without sudo>
+
+###### NodeJS Config #########
 NPM_PACKAGES="${HOME}/.npm-packages"
 PATH="$NPM_PACKAGES/bin:$PATH"
+
 # Unset manpath so we can inherit from /etc/manpath via the `manpath` command
 unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-#</NPM without sudo>
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NODE_ENV="development"
+#########################################
 
-#PythonVirtualENV
+
+###### python config ########
+export PYTHONDONTWRITEBYTECODE=1
 VIRTUALENVWRAPPER_PYTHON='/usr/bin/python3'
 source /usr/local/bin/virtualenvwrapper.sh
 export WORKON_HOME=$HOME/.virtualenvs
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export DJANGO_ENV_TYPE='local'
+###################################
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+#export JAVA_HOME='usr/lib/jvm/default-java'
+
+
+###### Ruby config
 export PATH="$PATH:$HOME/.rvm/bin"
+#######################
 
-# Custom Scripts
-export PATH="$PATH:$HOME/LocalGitHub/dotfiles/bin"
+# include dotfiles executable scripts
+export PATH="$PATH:$HOME/dotfiles/scripts"
 
-# Golang-config
-export GOPATH=$HOME/go
+####### Qt config #########
+export PATH=/opt/Qt5.3.1/5.3/gcc_64/bin/:$PATH
+#####################
+
+######### Golang-config ################
+export GOPATH=$HOME/go:$HOME/GoProjects
 export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+########################################
 
 
-# gunicorn alias for checking logs
+####### Rust-config ###########
+export PATH="$HOME/.cargo/bin:$PATH"
+#############################
+
+# supervisor aliases
 alias server_status='tail -F /var/log/gunicorn/gunicorn_server.log'
+alias render_server_status='sudo supervisorctl tail -f render_server'
+alias spotify="/snap/bin/spt"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

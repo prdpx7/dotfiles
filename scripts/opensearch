@@ -40,4 +40,4 @@ opensearch(){
     fi
 }
 
-opensearch $@
+opensearch "$@"

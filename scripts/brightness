@@ -7,7 +7,7 @@
 brightness(){
     if [ $# -eq 0 ]; 
     then
-        echo -e "Usage:\nbrightness 10# set brightness level to 10;\nbrightness 0 #lightsout on screen";
+        echo -e "Usage:\nbrightness 100 # set brightness level to 100";
         return 1; 
     fi
     if ! [[ $1 =~ ^[0-9]+$ ]];
@@ -28,4 +28,4 @@ brightness(){
     fi
     echo $1 > $BACKLIGHT_FILE
 }
-brightness $@
+brightness "$@"
