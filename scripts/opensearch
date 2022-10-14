@@ -1,6 +1,13 @@
 #!/bin/bash
 
 GOOGLE_URL="https://google.com/search?q="
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        CMD="xdg-ope"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+        CMD="open"
+else 
+    exit 0
+fi
 
 opensearch(){
     MOVIE_SEARCH='intext:"search_term" intitle:"index.of" +(wmv|mpg|avi|mp4|mkv|mov) -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)'
@@ -27,16 +34,16 @@ opensearch(){
         shift;
         search_term="$@"
         query=`echo $MUSIC_SEARCH | sed -e "s/search_term/$search_term/g"`
-        xdg-open "$GOOGLE_URL$query" &> /dev/null
+        $CMD "$GOOGLE_URL$query" &> /dev/null
     elif [[ $1 =~ \-b|\-\-book ]];then
         shift
         search_term="$@"
         query=`echo $BOOK_SEARCH | sed -e "s/search_term/$search_term/g"`
-        xdg-open "$GOOGLE_URL$query" &> /dev/null
+        $CMD "$GOOGLE_URL$query" &> /dev/null
     else
         search_term="$@"
         query=`echo $MOVIE_SEARCH | sed -e "s/search_term/$search_term/g"`
-        xdg-open "$GOOGLE_URL$query" &> /dev/null
+        $CMD "$GOOGLE_URL$query" &> /dev/null
     fi
 }
 

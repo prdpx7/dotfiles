@@ -1,0 +1,33 @@
+#!/bin/bash +x
+
+# https://stackoverflow.com/a/50065002
+export GREEN=$'\e[0;32m'
+export RED=$'\e[0;31m'
+export NC=$'\e[0m'
+export YELLOW=$'\e[0;33m'
+
+untracked_files=$(git ls-files . --exclude-standard --others)
+
+check_empty_str=$(echo "$untracked_files" | tr -d '[:space:]')
+if [[ "${check_empty_str}xxx" == "xxx" ]]; then
+    echo "No untracked files found. bye!"
+    exit 0
+fi
+IFS=$',' read -rd '' -a untracked_files_arr <<<"$untracked_files"
+echo -e "Untracked files:"
+echo -e  "${RED}"
+echo -e "$untracked_files${NC}\n"
+
+read -p "${YELLOW}Are you sure want to delete these?[y/n]${NC}:" input
+
+if [[ "$input" != [yY] ]]; then
+    exit 0
+fi
+
+
+echo $untracked_files_arr
+
+for file in ${untracked_files_arr[@]}; do
+    rm "${file}"
+    echo "Deleted $file"
+done
